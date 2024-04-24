@@ -1,7 +1,9 @@
 body {
 	display: flex;
 	justify-content: center;
-	font-weight: 900;
+	font-family: 'Dekko', cursive;
+	font-weight: 400;
+	font-style: normal;
 }
 
 .container {
@@ -14,9 +16,31 @@ body {
 	justify-content: center;
 	align-items: center;
 	gap: 1em;
-	background: linear-gradient(45deg, #8dedae, #bfd2b3, #799b85);
+	background-image: radial-gradient(
+		circle,
+		#4f9f60,
+		#70b581,
+		#90caa1,
+		#b2e0c2,
+		#d6f5e2
+	);
+}
+
+.container:hover {
+	background-image: url('./asset/小卷友logo.png');
+	background-position: center;
+}
+
+.container:hover #greeting,
+.container:hover #time,
+.container:hover #date {
+	display: none;
 }
 
 #time {
-	font-size: 2.5em;
+	font-size: 3.5em;
+}
+
+#greeting {
+	font-size: 1.5em;
 }

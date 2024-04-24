@@ -9,21 +9,21 @@ function displayWidget() {
 
 	const ampm = hours >= 12 ? 'pm' : 'am';
 
-	const greetings = ['早上好', '下午好', '晚上好'];
-	const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+	const greetings = ['Good Morning!', 'Good Afternoon!', 'Good Evening!'];
+	const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 	const months = [
-		'一月',
-		'二月',
-		'3月',
-		'四月',
-		'五月',
-		'六月',
-		'七月',
-		'八月',
-		'九月',
-		'十月',
-		'十一月',
-		'十二月',
+		'JAN',
+		'FEB',
+		'MAR',
+		'APR',
+		'MAY',
+		'JUN',
+		'JUL',
+		'AUG',
+		'SEP',
+		'OCT',
+		'NOV',
+		'DEC',
 	];
 
 	const greetingIndex = hours < 12 ? 0 : hours < 17 ? 1 : 2;
@@ -38,7 +38,7 @@ function displayWidget() {
 	const minStr = minutes < 10 ? `0${minutes}` : `${minutes}`;
 
 	updateElement('greeting', greetingStr);
-	updateElement('date', `${dayName}，${monthName}${date}日`);
+	updateElement('date', `${dayName}, ${monthName} ${date}`);
 	updateElement('time', `${hourStr} : ${minStr} ${ampm}`);
 
 	setTimeout(displayWidget, 1000);
