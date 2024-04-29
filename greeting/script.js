@@ -9,9 +9,9 @@ function displayWidget() {
 
 	const ampm = hours >= 12 ? 'pm' : 'am';
 
-	const greetings = ['Good Morning!', 'Good Afternoon!', 'Good Evening!'];
-	const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-	const months = [
+	const GREETINGS = ['Good Morning!', 'Good Afternoon!', 'Good Evening!'];
+	const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+	const MONTHS = [
 		'JAN',
 		'FEB',
 		'MAR',
@@ -27,10 +27,10 @@ function displayWidget() {
 	];
 
 	const greetingIndex = hours < 12 ? 0 : hours < 17 ? 1 : 2;
-	const greetingStr = `${greetings[greetingIndex]} `;
+	const greetingStr = `${GREETINGS[greetingIndex]} `;
 
-	const dayName = days[today.getDay()];
-	const monthName = months[today.getMonth()];
+	const dayName = DAYS[today.getDay()];
+	const monthName = MONTHS[today.getMonth()];
 	const date = today.getDate();
 
 	const hour = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
