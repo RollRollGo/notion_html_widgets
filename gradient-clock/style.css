@@ -27,7 +27,7 @@ body {
 }
 
 .container:hover {
-	background-image: url('./asset/小卷友logo.png');
+	background-image: url('../assets/logo.png');
 	background-position: center;
 }
 
