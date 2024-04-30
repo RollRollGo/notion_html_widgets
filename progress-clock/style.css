@@ -1,0 +1,50 @@
+body {
+  display: flex;
+  justify-content: center;
+
+  font-size: 14px;
+}
+
+#container {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  aspect-ratio: 1;
+  
+  border-radius: 50%;
+}
+
+.circle:not(.circle#year-progress) {
+  width: calc(100% - 40px);
+  border: 5px solid #ffffff;
+}
+
+/* TODO: 给年、月、日、星期进度增加颜色 */
+.circle#year-progress {
+  width: 100%;
+}
+
+.circle#clock {
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+#time {
+  font-size: 24px;
+}
+
+#day {
+  font-size: 16px;
+}
+
