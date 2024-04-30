@@ -7,7 +7,8 @@ body {
 
 #container {
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
+  min-width: 250px;
   aspect-ratio: 1;
 
   display: flex;
@@ -21,7 +22,7 @@ body {
   align-items: center;
 
   aspect-ratio: 1;
-  
+
   border-radius: 50%;
 }
 
@@ -30,7 +31,6 @@ body {
   border: 5px solid #ffffff;
 }
 
-/* TODO: 给年、月、日、星期进度增加颜色 */
 .circle#year-progress {
   width: 100%;
 }
@@ -38,13 +38,14 @@ body {
 .circle#clock {
   flex-direction: column;
   background-color: #ffffff;
+  color: #224c5d;
 }
 
 #time {
   font-size: 24px;
+  line-height: 32px;
 }
 
 #day {
   font-size: 16px;
 }
-
