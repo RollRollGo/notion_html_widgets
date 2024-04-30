@@ -4,14 +4,14 @@ body {
   font-style: normal;
 }
 
-.background {
+#background {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
 }
 
-.container {
+#container {
   font-size: 16px;
   background-color: #FFEDF2;
 
@@ -25,24 +25,24 @@ body {
   border-radius: 5px;
 }
 
-.quote {
+#quote {
   margin: 0 20px;
 }
 
-.author {
+#author {
   text-align: right;
   font-style: italic;
   font-size: 13px;
   margin-top: 10px;
 }
 
-.divider {
+#divider {
   height: 1px;
   margin: 10px 0px;
   background-color: #C9C9C9;
 }
 
-.footer {
+#footer {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -50,11 +50,11 @@ body {
   font-size: 12px;
 }
 
-.logo {
+#logo {
   width: 30px;
   height: 30px;
 }
 
-.info {
+#info {
   margin-bottom: -4px;
 }

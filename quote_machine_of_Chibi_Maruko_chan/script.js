@@ -66,7 +66,7 @@ function generateQuote() {
   const random_index = getRandomIndex(QUOTES.length);
   const quote = "🍒 " + QUOTES[random_index];
 
-  document.getElementsByClassName("quote")[0].innerHTML = quote;
+  document.getElementById("quote").innerHTML = quote;
 }
 
 generateQuote();
