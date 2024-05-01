@@ -15,8 +15,8 @@ body {
 
 #container {
   width: 100%;
-  max-width: 400px;
-  min-width: 250px;
+  max-width: 300px;
+  min-width: 220px;
   aspect-ratio: 1;
   flex-direction: column;
 }
@@ -28,7 +28,7 @@ body {
 }
 
 .circle:not(.circle#year-progress) {
-  width: calc(100% - 40px);
+  width: calc(100% - 30px);
   border: 5px solid #ffffff;
 }
 
