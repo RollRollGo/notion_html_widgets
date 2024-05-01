@@ -1,15 +1,15 @@
 body {
 	display: flex;
 	justify-content: center;
+	align-items: flex-start;
 	font: 400 normal 1rem 'Dekko', cursive;
 }
 
 .container {
 	color: #f1ebeb;
 	width: 90vw;
-	height: 90vw;
-	max-width: 20em;
-	max-height: 20em;
+	min-width: 150px;
+	aspect-ratio: 1;
 	border-radius: 50%;
 	display: flex;
 	flex-direction: column;
@@ -38,23 +38,22 @@ body {
 }
 
 #time {
-	font-size: 3.5rem;
+	--minFontSize: 15px;
+	--maxFontSize: 900px;
+	--scaler: 10vw;
+	font-size: clamp(var(--minFontSize), var(--scaler), var(--maxFontSize));
 }
 
 #greeting {
-	font-size: 1.5rem;
+	--minFontSize: 10px;
+	--maxFontSize: 800px;
+	--scaler: 6vw;
+	font-size: clamp(var(--minFontSize), var(--scaler), var(--maxFontSize));
 }
 
-@media (max-width: 300px) {
-	html {
-		font-size: 6px;
-	}
+#date {
+	--minFontSize: 8px;
+	--maxFontSize: 700px;
+	--scaler: 5vw;
+	font-size: clamp(var(--minFontSize), var(--scaler), var(--maxFontSize));
 }
-
-@media (max-width: 100px) {
-	html {
-		font-size: 3px;
-	}
-}
-
-
