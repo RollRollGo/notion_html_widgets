@@ -5,6 +5,8 @@ const MIL_SECONDS_OF_DAY = 24 * 60 * 60 * 1000;
 // 进度条的颜色规则为 fadedColor 是 color 转换成 rgba 后，alpha 由 1 降为 0.2
 // 由于元素嵌套，降低透明度会导致颜色叠加
 // 因此将降低 alpha 后的颜色再转为 alpha 为 1 的值，再赋值给 fadedColor
+// 以 year-progress 为例，color 是 #9f89b7，它的 rgba 是 rgba(161, 137, 181, 1)
+// fadedColor 使用 rgba(161, 137, 181, 0.2), 将它转成 a 为 1 的值，即 RGBA(236, 231, 240, 1.00)，即 #ECE7F0
 const PROGRESS_CONFIG_MAP = {
   "year-progress": {
     color: "#9f89b7",
@@ -53,7 +55,7 @@ function normalizePercentage(digit) {
 
 function updateElementContentById(id, content) {
   const ele = document.getElementById(id);
-  ele.innerHTML = content;
+  ele.textContent = content;
 }
 
 function updateDate() {
