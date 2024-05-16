@@ -1,0 +1,16 @@
+body {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	font: 400 normal 1rem 'Poppins', sans-serif;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#counter {
+	padding: 2rem 0;
+}
