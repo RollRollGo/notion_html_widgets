@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', initialize);
 const POMODORO_TIME = 25 * 60;
 const SHORT_BREAK_TIME = 5 * 60;
 const LONG_BREAK_TIME = 15 * 60;
+const WAVES = document.querySelectorAll('.wave');
 let currentMode = 'pomodoro'; //番茄时钟的默认模式
 let timer; //存储番茄时钟计时器 ID
 let timeLeft = POMODORO_TIME;
@@ -59,12 +60,14 @@ function startCounter(startButton, counterDisplay) {
 	timer = setInterval(() => decrementTime(counterDisplay, startButton), 1000);
 	isRunning = true;
 	startButton.textContent = 'Pause';
+	toggleWaveAnimation(true);
 }
 //暂停番茄时钟
 function pauseCounter(startButton) {
 	clearInterval(timer);
 	isRunning = false;
 	startButton.textContent = 'Start';
+	toggleWaveAnimation(false);
 }
 //倒计时
 function decrementTime(counterDisplay, startButton) {
@@ -85,6 +88,7 @@ function resetTimer(counterDisplay, startButton) {
 	updateDisplay(counterDisplay);
 	isRunning = false;
 	startButton.textContent = 'Start';
+	toggleWaveAnimation(false);
 }
 //根据模式设置番茄时钟时长
 function setTimeByMode(mode) {
@@ -104,4 +108,15 @@ function setTimeByMode(mode) {
 function switchMode(mode, counterDisplay, startButton) {
 	currentMode = mode;
 	resetTimer(counterDisplay, startButton);
+}
+
+//控制波浪动画
+function toggleWaveAnimation(activate) {
+	WAVES.forEach((wave) => {
+		if (activate) {
+			wave.classList.add('wave-active');
+		} else {
+			wave.classList.remove('wave-active');
+		}
+	});
 }
