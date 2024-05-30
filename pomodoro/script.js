@@ -44,17 +44,13 @@ function initialize() {
 function formatTime(seconds) {
 	const minutes = Math.floor(seconds / 60);
 	const remainingSeconds = seconds % 60;
-	return `${String(minutes).padStart(2, '0')}:${String(
-		remainingSeconds
-	).padStart(2, '0')}`;
+	return `${numberFormatUtil(minutes)}:${numberFormatUtil(remainingSeconds)}`;
 }
 
-//更新番茄时钟显示
 function updateDisplay(counterDisplay) {
 	counterDisplay.textContent = formatTime(timeLeft);
 }
 
-//启动番茄时钟
 function startCounter(startButton, counterDisplay) {
 	clearInterval(timer);
 	timer = setInterval(() => decrementTime(counterDisplay, startButton), 1000);
@@ -62,14 +58,14 @@ function startCounter(startButton, counterDisplay) {
 	startButton.textContent = 'Pause';
 	toggleWaveAnimation(true);
 }
-//暂停番茄时钟
+
 function pauseCounter(startButton) {
 	clearInterval(timer);
 	isRunning = false;
 	startButton.textContent = 'Start';
 	toggleWaveAnimation(false);
 }
-//倒计时
+
 function decrementTime(counterDisplay, startButton) {
 	if (timeLeft > 0) {
 		timeLeft--;
@@ -81,7 +77,7 @@ function decrementTime(counterDisplay, startButton) {
 		startButton.textContent = 'Start';
 	}
 }
-//重置番茄时钟
+
 function resetTimer(counterDisplay, startButton) {
 	clearInterval(timer);
 	setTimeByMode(currentMode);
@@ -90,7 +86,7 @@ function resetTimer(counterDisplay, startButton) {
 	startButton.textContent = 'Start';
 	toggleWaveAnimation(false);
 }
-//根据模式设置番茄时钟时长
+
 function setTimeByMode(mode) {
 	switch (mode) {
 		case 'pomodoro':
@@ -119,4 +115,9 @@ function toggleWaveAnimation(activate) {
 			wave.classList.remove('wave-active');
 		}
 	});
+}
+
+//格式化时间数字为两位
+function numberFormatUtil(number) {
+	return String(number).padStart(2, '0');
 }
