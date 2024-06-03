@@ -1,0 +1,35 @@
+body {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	font: 700 normal 1rem 'Noto Serif SC', serif;
+}
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2px;
+	width: 350px;
+	min-width: 300px;
+	height: 200px;
+	min-height: 50px;
+	border-radius: 15px;
+	background-image: linear-gradient(
+		to left top,
+		#dbb5b5,
+		#caa3a3,
+		#b99292,
+		#a88181,
+		#987070
+	);
+}
+
+#quote {
+	color: #dee4ee;
+	font-size: larger;
+}
+
+#logo {
+	max-width: 30px;
+}
