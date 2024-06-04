@@ -2,7 +2,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
-	font: 700 normal 1rem 'Noto Serif SC', serif;
+	font: 700 1rem 'Noto Serif SC', serif;
 }
 
 .container {
@@ -15,7 +15,7 @@ body {
 	height: 200px;
 	min-height: 50px;
 	border-radius: 15px;
-	background-image: linear-gradient(
+	background: linear-gradient(
 		to top,
 		#febbcc,
 		#ffc9c2,
@@ -25,28 +25,25 @@ body {
 	);
 }
 
-#quote {
+#quote,
+#overlay-text {
 	color: #643843;
 	font-size: 24px;
+}
+
+#quote {
 	max-width: 150px;
-	display: none;
 }
 
 #logo {
 	max-width: 40px;
-	display: block;
-}
-
-#overlay-text {
-	font-size: 24px;
-	color: #643843;
 }
 
 #toggle-button {
 	border: none;
 	background: none;
 	cursor: pointer;
-	transition: transform 0.7s ease-in-out;
+	transition: transform 0.7s;
 	color: #643843;
 }
 

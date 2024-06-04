@@ -3,17 +3,16 @@ document.addEventListener('DOMContentLoaded', initialize);
 const QUOTE_ELEMENT = document.getElementById('quote');
 const OVERLAY_TEXT = document.getElementById('overlay-text');
 const TOGGLE_BUTTON = document.getElementById('toggle-button');
-const LOGO_IMAGE = document.getElementById('logo');
 let isQuoteDisplayed = false;
 
-function fetchQuotes(callback) {
-	fetch('answers.json')
+function fetchAnswers() {
+	return fetch('answers.json')
 		.then((response) => response.json())
-		.then((data) => {
-			const answers = extractAnswersFromJsonPair(data);
-			callback(answers);
-		})
-		.catch((error) => console.error('Error fetching answers:', error));
+		.then((data) => extractAnswersFromJsonPair(data))
+		.catch((error) => {
+			console.error('Error fetching answers:', error);
+			return [];
+		});
 }
 
 function extractAnswersFromJsonPair(jsonPair) {
@@ -24,36 +23,28 @@ function getRandomIndex(quotes) {
 	return Math.floor(Math.random() * quotes.length);
 }
 
-function showRandomQuotes(answers) {
+function showRandomAnswers(answers) {
 	const randomIndex = getRandomIndex(answers);
 	QUOTE_ELEMENT.textContent = answers[randomIndex];
 	QUOTE_ELEMENT.style.display = 'inline';
-	TOGGLE_BUTTON.innerHTML = 'BACK';
+	TOGGLE_BUTTON.textContent = 'BACK';
 }
 
-function hideOverlay() {
-	OVERLAY_TEXT.style.display = 'none';
-}
-
-function showOverlay() {
-	OVERLAY_TEXT.style.display = 'inline';
-	QUOTE_ELEMENT.style.display = 'none';
-	TOGGLE_BUTTON.innerHTML =
-		'<img id="logo" src="../assets/logo.png" alt="rollrollgo" />';
-}
-
-function handleButtonClick() {
+function toggleOverlay() {
 	if (isQuoteDisplayed) {
-		showOverlay();
+		OVERLAY_TEXT.style.display = 'inline';
+		QUOTE_ELEMENT.style.display = 'none';
+		TOGGLE_BUTTON.innerHTML =
+			'<img id="logo" src="../assets/logo.png" alt="rollrollgo" />';
 	} else {
-		fetchQuotes((answers) => {
-			showRandomQuotes(answers);
-			hideOverlay();
+		fetchAnswers().then((answers) => {
+			showRandomAnswers(answers);
+			OVERLAY_TEXT.style.display = 'none';
 		});
 	}
 	isQuoteDisplayed = !isQuoteDisplayed;
 }
 
 function initialize() {
-	TOGGLE_BUTTON.addEventListener('click', handleButtonClick);
+	TOGGLE_BUTTON.addEventListener('click', toggleOverlay);
 }
