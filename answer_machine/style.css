@@ -27,9 +27,26 @@ body {
 
 #quote {
 	color: #dee4ee;
-	font-size: larger;
+	font-size: 24px;
+	display: none;
 }
 
 #logo {
-	max-width: 30px;
+	max-width: 40px;
+	display: block;
+}
+
+#overlay-text {
+	font-size: 24px;
+}
+
+#toggle-button {
+	border: none;
+	background: none;
+	cursor: pointer;
+	transition: transform 0.7s ease-in-out;
+}
+
+#toggle-button:hover {
+	transform: rotate(360deg);
 }
