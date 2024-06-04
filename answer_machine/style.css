@@ -9,25 +9,26 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 2px;
+	gap: 10px;
 	width: 350px;
 	min-width: 300px;
 	height: 200px;
 	min-height: 50px;
 	border-radius: 15px;
 	background-image: linear-gradient(
-		to left top,
-		#dbb5b5,
-		#caa3a3,
-		#b99292,
-		#a88181,
-		#987070
+		to top,
+		#febbcc,
+		#ffc9c2,
+		#ffdabe,
+		#ffecc3,
+		#feffd2
 	);
 }
 
 #quote {
-	color: #dee4ee;
+	color: #643843;
 	font-size: 24px;
+	max-width: 150px;
 	display: none;
 }
 
@@ -38,6 +39,7 @@ body {
 
 #overlay-text {
 	font-size: 24px;
+	color: #643843;
 }
 
 #toggle-button {
@@ -45,6 +47,7 @@ body {
 	background: none;
 	cursor: pointer;
 	transition: transform 0.7s ease-in-out;
+	color: #643843;
 }
 
 #toggle-button:hover {
