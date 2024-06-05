@@ -29,14 +29,11 @@ body {
 #overlay-text {
 	color: #643843;
 	font-size: 24px;
-}
-
-#quote {
 	max-width: 150px;
 }
 
 #logo {
-	max-width: 40px;
+	max-width: 60px;
 }
 
 #toggle-button {
