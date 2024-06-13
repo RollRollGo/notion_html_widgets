@@ -8,11 +8,32 @@
 	<body>
 		<div class="container">
 			<div class="flip-clock">
-				<div class="digit" data-digit-before="0" data-digit-after="1">
+				<div class="digit digit-hour" id="hour">
 					<!-- ::before -->
-					<div class="card" onclick="this.classList.toggle('flipped')">
-						<div class="card-face card-face-front">0</div>
-						<div class="card-face card-face-back">1</div>
+					<div class="card">
+						<div class="card-face card-face-front"></div>
+						<div class="card-face card-face-back"></div>
+					</div>
+					<!-- ::after -->
+				</div>
+				<div class="digit digit-minute" id="minute">
+					<!-- ::before -->
+					<div class="card">
+						<div class="card-face card-face-front"></div>
+						<div class="card-face card-face-back"></div>
+					</div>
+					<!-- ::after -->
+				</div>
+				<div
+					class="digit digit-second"
+					id="second"
+					data-digit-before="0"
+					data-digit-after="1"
+				>
+					<!-- ::before -->
+					<div class="card">
+						<div class="card-face card-face-front"></div>
+						<div class="card-face card-face-back"></div>
 					</div>
 					<!-- ::after -->
 				</div>
