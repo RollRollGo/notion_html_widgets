@@ -3,11 +3,11 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	font: 900 normal 1rem 'Dekko', cursive;
+	font: 800 normal 1rem 'Poppins', sans-serif;
 }
 
 .container {
-	font-size: 10vw;
+	font-size: 9vw;
 }
 
 .flip-clock {
@@ -42,6 +42,7 @@ body {
 	left: 50%;
 	transform: translateX(-50%);
 	font-size: 1.5vw;
+	font-weight: 500;
 }
 
 .digit::before,
@@ -145,6 +146,7 @@ footer {
 	padding-top: 6vw;
 	font-size: 1.2vw;
 	color: #3a3d3a;
+	font-weight: 300;
 }
 
 a {
