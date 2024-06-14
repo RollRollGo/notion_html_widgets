@@ -29,6 +29,7 @@ for (const key in elements) {
 	el.cardFaceFront = el.cardFaces[0];
 	el.cardFaceBack = el.cardFaces[1];
 }
+
 //更新时钟对应的卡片显示
 function updateElement(value, targetNode, targetFaceFront, targetFaceBack) {
 	const next = getNextDigit(value, targetNode);
@@ -65,12 +66,14 @@ function flipCard(el, value) {
 	el.card.addEventListener(
 		'transitionend',
 		function () {
+			//卡片翻转之后需要更新卡片内部的信息
 			updateElement(value, el.digit, el.cardFaceFront, el.cardFaceBack);
 			// 创建克隆卡片，是为了确保克隆卡片不会立刻翻转
+			//true 是深拷贝，包含 node 内的文本
 			const cardClone = el.card.cloneNode(true);
 			cardClone.classList.remove('flipped');
 			el.digit.replaceChild(cardClone, el.card);
-			//用克隆的卡片替换原始卡片
+			//在 elements 对象中用克隆的卡片替换原始卡片，以保证正确的引用
 			el.card = cardClone;
 			el.cardFaces = el.card.querySelectorAll('.card-face');
 			el.cardFaceFront = el.cardFaces[0];
