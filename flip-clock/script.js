@@ -1,17 +1,20 @@
 function getCurrentTime() {
 	const date = new Date();
-	const hour = String(date.getHours()).padStart(2, '0');
-	const minute = String(date.getMinutes()).padStart(2, '0');
-	const second = String(date.getSeconds()).padStart(2, '0');
-	return { hour, minute, second };
+	// 把返回值改成键为 hour/minute/second 的对象，与后面的 elements 格式一致，这样就可以简化后面 initTime 和 flipClock 的写法
+	return {
+		hour: String(date.getHours()).padStart(2, '0'),
+		minute: String(date.getMinutes()).padStart(2, '0'),
+		second: String(date.getSeconds()).padStart(2, '0'),
+	};
 }
 
 function getNextDigit(current, unit) {
+	// 因为传入的 current 类型是 string，这里用 + 是把 string 转换为 number
 	let next = +current + 1;
 	if (unit.className.includes('hour')) {
-		next >= 24 ? (next = '00') : (next = String(next).padStart(2, '0'));
+		next = next >= 24 ? '00' : String(next).padStart(2, '0');
 	} else {
-		next >= 60 ? (next = '00') : (next = String(next).padStart(2, '0'));
+		next = next >= 60 ? '00' : String(next).padStart(2, '0');
 	}
 	return next;
 }
@@ -31,34 +34,20 @@ for (const key in elements) {
 }
 
 //更新时钟对应的卡片显示
-function updateElement(value, targetNode, targetFaceFront, targetFaceBack) {
-	const next = getNextDigit(value, targetNode);
-	targetNode.dataset.digitBefore = value;
-	targetNode.dataset.digitAfter = next;
-	targetFaceFront.textContent = value;
-	targetFaceBack.textContent = next;
+function updateElement(value, element) {
+	const next = getNextDigit(value, element.digit);
+	element.digit.dataset.digitBefore = value;
+	element.digit.dataset.digitAfter = next;
+	element.cardFaceFront.textContent = value;
+	element.cardFaceBack.textContent = next;
 }
 
 function initCurrentTime() {
-	const { hour, minute, second } = getCurrentTime();
-	updateElement(
-		hour,
-		elements.hour.digit,
-		elements.hour.cardFaceFront,
-		elements.hour.cardFaceBack
-	);
-	updateElement(
-		minute,
-		elements.minute.digit,
-		elements.minute.cardFaceFront,
-		elements.minute.cardFaceBack
-	);
-	updateElement(
-		second,
-		elements.second.digit,
-		elements.second.cardFaceFront,
-		elements.second.cardFaceBack
-	);
+	const timeUnits = getCurrentTime();
+
+	for (const key in timeUnits) {
+		updateElement(timeUnits[key], elements[key]);
+	}
 }
 
 function flipCard(el, value) {
@@ -67,7 +56,7 @@ function flipCard(el, value) {
 		'transitionend',
 		function () {
 			//卡片翻转之后需要更新卡片内部的信息
-			updateElement(value, el.digit, el.cardFaceFront, el.cardFaceBack);
+			updateElement(value, el);
 			// 创建克隆卡片，是为了确保克隆卡片不会立刻翻转
 			//true 是深拷贝，包含 node 内的文本
 			const cardClone = el.card.cloneNode(true);
@@ -84,18 +73,12 @@ function flipCard(el, value) {
 }
 
 function flipClock() {
-	const { hour, minute, second } = getCurrentTime();
+	const timeUnits = getCurrentTime();
 
-	if (second !== elements.second.digit.dataset.digitBefore) {
-		flipCard(elements.second, second);
-	}
-
-	if (minute !== elements.minute.digit.dataset.digitBefore) {
-		flipCard(elements.minute, minute);
-	}
-
-	if (hour !== elements.hour.digit.dataset.digitBefore) {
-		flipCard(elements.hour, hour);
+	for (const key in timeUnits) {
+		if (timeUnits[key] !== elements[key].digit.dataset.digitBefore) {
+			flipCard(elements[key], timeUnits[key]);
+		}
 	}
 }
 

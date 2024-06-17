@@ -12,25 +12,25 @@
 		<link rel="stylesheet" href="./style.css" />
 	</head>
 	<body>
-		<div class="container">
-			<div class="flip-clock">
+		<div id="container">
+			<div id="flip-clock">
 				<div class="digit" id="hour">
-					<!-- ::before -->
 					<div class="card">
 						<div class="card-face card-face-front"></div>
 						<div class="card-face card-face-back"></div>
 					</div>
-					<!-- ::after -->
+
 					<div class="text">Hour</div>
+					<div class="digit-line"></div>
 				</div>
 				<div class="digit" id="minute">
-					<!-- ::before -->
 					<div class="card">
 						<div class="card-face card-face-front"></div>
 						<div class="card-face card-face-back"></div>
 					</div>
-					<!-- ::after -->
+
 					<div class="text">Minute</div>
+					<div class="digit-line"></div>
 				</div>
 				<div
 					class="digit"
@@ -38,18 +38,18 @@
 					data-digit-before="0"
 					data-digit-after="1"
 				>
-					<!-- ::before -->
 					<div class="card">
 						<div class="card-face card-face-front"></div>
 						<div class="card-face card-face-back"></div>
 					</div>
-					<!-- ::after -->
+
 					<div class="text">Second</div>
+					<div class="digit-line"></div>
+					<img id="logo" src="../assets/logo.png" alt="roll-roll-go logo" />
 				</div>
-				<div class="digit-line"></div>
 			</div>
 		</div>
-		<footer>
+		<!-- <footer>
 			Made /🧡 by
 			<a
 				href="https://www.notion.so/roll-roll-go/s-Home-1beed66eeff84a3cabc455bee81c7237"
@@ -57,7 +57,7 @@
 			>
 				RollRollGo
 			</a>
-		</footer>
+		</footer> -->
 		<script src="./script.js"></script>
 	</body>
 </html>
