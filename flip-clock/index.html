@@ -14,12 +14,16 @@
 	<body>
 		<div id="container">
 			<div id="flip-clock">
+				<!-- 每一个 #digit 为单张翻转卡片的底层 -->
+				<!-- 在样式中，通过 ::before 和 ::after 来定义底层卡片的位置和大小 -->
+				<!-- 通过 dataset 来定义 ::before 和  ::after 的值 -->
+				<!-- 和 .card 共同构成翻转的效果 -->
 				<div class="digit" id="hour">
+					<!-- .card 负责通过 3D css 实现翻转效果  -->
 					<div class="card">
 						<div class="card-face card-face-front"></div>
 						<div class="card-face card-face-back"></div>
 					</div>
-
 					<div class="text">Hour</div>
 					<div class="digit-line"></div>
 				</div>
@@ -28,36 +32,20 @@
 						<div class="card-face card-face-front"></div>
 						<div class="card-face card-face-back"></div>
 					</div>
-
 					<div class="text">Minute</div>
 					<div class="digit-line"></div>
 				</div>
-				<div
-					class="digit"
-					id="second"
-					data-digit-before="0"
-					data-digit-after="1"
-				>
+				<div class="digit" id="second">
 					<div class="card">
 						<div class="card-face card-face-front"></div>
 						<div class="card-face card-face-back"></div>
 					</div>
-
 					<div class="text">Second</div>
 					<div class="digit-line"></div>
 					<img id="logo" src="../assets/logo.png" alt="roll-roll-go logo" />
 				</div>
 			</div>
 		</div>
-		<!-- <footer>
-			Made /🧡 by
-			<a
-				href="https://www.notion.so/roll-roll-go/s-Home-1beed66eeff84a3cabc455bee81c7237"
-				target="_blank"
-			>
-				RollRollGo
-			</a>
-		</footer> -->
 		<script src="./script.js"></script>
 	</body>
 </html>

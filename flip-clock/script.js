@@ -9,8 +9,7 @@ function getCurrentTime() {
 }
 
 function getNextDigit(current, unit) {
-	// 因为传入的 current 类型是 string，这里用 + 是把 string 转换为 number
-	let next = +current + 1;
+	let next = Number(current) + 1;
 	if (unit.className.includes('hour')) {
 		next = next >= 24 ? '00' : String(next).padStart(2, '0');
 	} else {
