@@ -3,12 +3,13 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: start;
-	font: 800 normal 1rem 'Poppins', sans-serif;
+	font: 900 normal 1rem 'Poppins', sans-serif;
 }
 
 #container {
 	font-size: 85px;
-	width: 500px;
+	max-width: 500px;
+	min-width: 150px;
 }
 
 #flip-clock {
@@ -40,6 +41,7 @@ body {
 .digit {
 	position: relative;
 	width: 150px;
+	min-width: 50px;
 	aspect-ratio: 1;
 	box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 	line-height: 0;
