@@ -7,9 +7,8 @@ body {
 }
 
 #container {
-	font-size: 85px;
-	max-width: 500px;
-	min-width: 150px;
+	font-size: 55px;
+	width: 300px;
 }
 
 #flip-clock {
@@ -20,7 +19,7 @@ body {
 
 #logo {
 	position: absolute;
-	width: 30px;
+	width: 15px;
 	z-index: 1;
 	bottom: 0;
 	right: 0;
@@ -40,20 +39,19 @@ body {
 
 .digit {
 	position: relative;
-	width: 150px;
-	min-width: 50px;
+	width: 100px;
 	aspect-ratio: 1;
 	box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 	line-height: 0;
-	margin: 0 6px;
+	margin: 0 3px;
 }
 
 .text {
 	position: absolute;
-	bottom: -20px;
+	bottom: -15px;
 	left: 50%;
 	transform: translateX(-50%);
-	font-size: 15px;
+	font-size: 10px;
 	font-weight: 500;
 }
 
