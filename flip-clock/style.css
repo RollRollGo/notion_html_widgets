@@ -2,7 +2,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: start;
+	align-items: center;
 	font: 900 normal 1rem 'Poppins', sans-serif;
 }
 
