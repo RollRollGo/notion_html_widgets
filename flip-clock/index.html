@@ -1,0 +1,51 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>A Flip clock</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<div id="container">
+			<div id="flip-clock">
+				<!-- 每一个 #digit 为单张翻转卡片的底层 -->
+				<!-- 在样式中，通过 ::before 和 ::after 来定义底层卡片的位置和大小 -->
+				<!-- 通过 dataset 来定义 ::before 和  ::after 的值 -->
+				<!-- 和 .card 共同构成翻转的效果 -->
+				<div class="digit" id="hour">
+					<!-- .card 负责通过 3D css 实现翻转效果  -->
+					<div class="card">
+						<div class="card-face card-face-front"></div>
+						<div class="card-face card-face-back"></div>
+					</div>
+					<div class="text">Hour</div>
+					<div class="digit-line"></div>
+				</div>
+				<div class="digit" id="minute">
+					<div class="card">
+						<div class="card-face card-face-front"></div>
+						<div class="card-face card-face-back"></div>
+					</div>
+					<div class="text">Minute</div>
+					<div class="digit-line"></div>
+				</div>
+				<div class="digit" id="second">
+					<div class="card">
+						<div class="card-face card-face-front"></div>
+						<div class="card-face card-face-back"></div>
+					</div>
+					<div class="text">Second</div>
+					<div class="digit-line"></div>
+					<img id="logo" src="../assets/logo.png" alt="roll-roll-go logo" />
+				</div>
+			</div>
+		</div>
+		<script src="./script.js"></script>
+	</body>
+</html>
