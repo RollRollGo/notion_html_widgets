@@ -1,0 +1,48 @@
+body {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+#container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 350px;
+	min-width: 150px;
+	aspect-ratio: 1 / 1;
+	position: relative;
+}
+
+.page {
+	list-style: none;
+	width: 100%;
+	aspect-ratio: 1/1;
+	border-radius: 15px;
+	position: absolute;
+	transition: transform 0.3s ease;
+}
+
+#date {
+	background-color: #f4ac1c;
+	z-index: 3;
+}
+
+#fortune {
+	background-color: #8cc660;
+	z-index: 2;
+	transform: rotate(-15deg) translate(10%, 15%);
+}
+
+#misfortune {
+	background-color: #fd95ab;
+	z-index: 1;
+	transform: rotate(15deg) translate(-10%, 15%);
+}
+
+#container:hover #fortune,
+#container:hover #misfortune,
+#fortune:hover,
+#misfortune:hover {
+	transform: none;
+}
