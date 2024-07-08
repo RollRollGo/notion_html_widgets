@@ -28,7 +28,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 3px; /* added px unit for gap */
+	gap: 3px;
 	color: white;
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
 		rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
@@ -113,11 +113,11 @@ body {
 	bottom: -35px;
 	background-color: inherit;
 	border-radius: 50%;
-	border: solid, white, 3px;
 	font-size: 15px;
 	font-weight: 600;
 	text-align: center;
 	display: none;
+	box-shadow: white 0px 0px 0px 3px;
 }
 
 .list {
