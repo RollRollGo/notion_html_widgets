@@ -128,8 +128,22 @@ body {
 
 #logo {
 	width: 30px;
+}
+
+#hint {
 	position: absolute;
-	bottom: 10px;
-	right: 10px;
+	bottom: -60px;
+	list-style: none;
+	font-size: 10px;
+	color: #f4ac1c;
+	font-weight: 600;
+	display: none;
+}
+
+#container:hover #hint {
+	display: block;
+}
+
+#container:active #hint {
 	display: none;
 }
