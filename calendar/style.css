@@ -2,14 +2,17 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
+	font-family: 'Noto Sans SC', sans-serif;
+	font-weight: 400;
+	font-style: normal;
 }
 
 #container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 350px;
-	min-width: 150px;
+	width: 100px;
+	min-width: 50px;
 	aspect-ratio: 1 / 1;
 	position: relative;
 }
@@ -17,10 +20,18 @@ body {
 .page {
 	list-style: none;
 	width: 100%;
-	aspect-ratio: 1/1;
+	aspect-ratio: 1 / 1;
 	border-radius: 15px;
 	position: absolute;
 	transition: transform 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 3px; /* added px unit for gap */
+	color: white;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+		rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
 #date {
@@ -28,16 +39,31 @@ body {
 	z-index: 3;
 }
 
+#date p {
+	margin: 0;
+	padding: 0;
+}
+
+#day {
+	font-size: 2.5rem;
+	font-weight: 500;
+}
+
+#fortune,
+#misfortune {
+	gap: 0;
+}
+
 #fortune {
 	background-color: #8cc660;
 	z-index: 2;
-	transform: rotate(-15deg) translate(10%, 15%);
+	transform: rotate(15deg) translate(-10%, 15%);
 }
 
 #misfortune {
 	background-color: #fd95ab;
 	z-index: 1;
-	transform: rotate(15deg) translate(-10%, 15%);
+	transform: rotate(-15deg) translate(10%, 15%);
 }
 
 #container:hover #fortune,
@@ -45,4 +71,65 @@ body {
 #fortune:hover,
 #misfortune:hover {
 	transform: none;
+}
+
+#container:active #fortune {
+	animation: press-animation-fortune 0.3s forwards;
+}
+
+#container:active #misfortune {
+	animation: press-animation-misfortune 0.3s forwards;
+}
+
+#container:active .title,
+#container:active .list,
+#container:active #logo {
+	display: block;
+}
+
+@keyframes press-animation-fortune {
+	from {
+		transform: translate(0, 0) rotate(0);
+	}
+	to {
+		transform: translate(-90%, 3%) rotate(-15deg);
+	}
+}
+
+@keyframes press-animation-misfortune {
+	from {
+		transform: translate(0, 0) rotate(0);
+	}
+	to {
+		transform: translate(90%, 3%) rotate(15deg);
+	}
+}
+
+.title {
+	color: white;
+	width: 25px;
+	aspect-ratio: 1;
+	position: absolute;
+	bottom: -35px;
+	background-color: inherit;
+	border-radius: 50%;
+	border: solid, white, 3px;
+	font-size: 15px;
+	font-weight: 600;
+	text-align: center;
+	display: none;
+}
+
+.list {
+	margin: 0;
+	padding: 15px;
+	display: none;
+}
+
+#logo {
+	width: 30px;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	display: none;
 }

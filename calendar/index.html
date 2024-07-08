@@ -3,13 +3,28 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Calendar</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="./style.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lunar-javascript/1.6.12/lunar.min.js"></script>
 	</head>
 	<body>
 		<ul id="container">
-			<li id="date" class="page"></li>
-			<li id="fortune" class="page"></li>
-			<li id="misfortune" class="page"></li>
+			<li id="date" class="page">
+				<p id="month"></p>
+				<p id="day""></p>
+				<p id="weekday"></p>
+				<img src="../assets/logo.png" alt="xiaojuanyou_logo" id="logo">
+			</li>
+			<li id="fortune" class="page">
+				<p class="title">宜</p>
+				<p id="yi-list" class="list"></p>
+			</li>
+			<li id="misfortune" class="page">
+				<p class="title">忌</p>
+				<p id="ji-list" class="list"></p>
+			</li>
 		</ul>
 
 		<script src="script.js"></script>
