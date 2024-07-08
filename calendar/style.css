@@ -132,9 +132,9 @@ body {
 
 #hint {
 	position: absolute;
-	bottom: -60px;
+	bottom: -65px;
 	list-style: none;
-	font-size: 10px;
+	font-size: 13px;
 	color: #f4ac1c;
 	font-weight: 600;
 	display: none;
