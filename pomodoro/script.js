@@ -128,8 +128,8 @@ function getParameterByName(name) {
 	return url.searchParams.get(name);
 }
 
-const backgroundColor = getParameterByName('bgColor');
+const BACKGROUND_COLOR = getParameterByName('bgColor');
 
-if (backgroundColor) {
-	document.body.style.backgroundColor = `#${bgColor}`;
+if (BACKGROUND_COLOR) {
+	document.body.style.backgroundColor = `#${BACKGROUND_COLOR}`;
 }
