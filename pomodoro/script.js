@@ -121,3 +121,15 @@ function toggleWaveAnimation(activate) {
 function numberFormatUtil(number) {
 	return String(number).padStart(2, '0');
 }
+
+// 获取 URL 参数并设置背景颜色
+function getParameterByName(name) {
+	const url = new URL(window.location.href);
+	return url.searchParams.get(name);
+}
+
+const backgroundColor = getParameterByName('bgColor');
+
+if (backgroundColor) {
+	document.body.style.backgroundColor = `#${bgColor}`;
+}
