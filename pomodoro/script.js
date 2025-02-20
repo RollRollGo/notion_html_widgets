@@ -133,3 +133,4 @@ const BACKGROUND_COLOR = getParameterByName('bgColor');
 if (BACKGROUND_COLOR) {
 	document.body.style.backgroundColor = `#${BACKGROUND_COLOR}`;
 }
+
