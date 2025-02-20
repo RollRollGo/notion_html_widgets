@@ -4,6 +4,9 @@ const POMODORO_TIME = 25 * 60;
 const SHORT_BREAK_TIME = 5 * 60;
 const LONG_BREAK_TIME = 15 * 60;
 const WAVES = document.querySelectorAll('.wave');
+const RING = new Audio('ring.mp3');
+const BEEP = new Audio('beep.mp3');
+
 let currentMode = 'pomodoro'; //番茄时钟的默认模式
 let timer; //存储番茄时钟计时器 ID
 let timeLeft = POMODORO_TIME;
@@ -68,11 +71,14 @@ function pauseCounter(startButton) {
 
 function decrementTime(counterDisplay, startButton) {
 	if (timeLeft > 0) {
+		if (timeLeft <= 6) {
+			BEEP.play();
+		}
 		timeLeft--;
 		updateDisplay(counterDisplay);
 	} else {
 		clearInterval(timer);
-		alert('Time is up!');
+		RING.play();
 		isRunning = false;
 		startButton.textContent = 'Start';
 	}
@@ -120,4 +126,16 @@ function toggleWaveAnimation(activate) {
 //格式化时间数字为两位
 function numberFormatUtil(number) {
 	return String(number).padStart(2, '0');
+}
+
+// 获取 URL 参数并设置背景颜色
+function getParameterByName(name) {
+	const url = new URL(window.location.href);
+	return url.searchParams.get(name);
+}
+
+const BACKGROUND_COLOR = getParameterByName('bgColor');
+
+if (BACKGROUND_COLOR) {
+	document.body.style.backgroundColor = `#${BACKGROUND_COLOR}`;
 }
