@@ -6,6 +6,7 @@ const LONG_BREAK_TIME = 15 * 60;
 const WAVES = document.querySelectorAll('.wave');
 const RING = new Audio('../assets/ring.mp3');
 const BEEP = new Audio('../assets/beep.mp3');
+const TIMER_BUTTONS = document.querySelectorAll('.timer');
 
 let currentMode = 'pomodoro'; //番茄时钟的默认模式
 let timer; //存储番茄时钟计时器 ID
@@ -19,6 +20,10 @@ function initialize() {
 	const pomodoroButton = document.getElementById('menu_pomodoro');
 	const shortBreakButton = document.getElementById('menu_short_break');
 	const longBreakButton = document.getElementById('menu_long_break');
+	const increaseButton = document.getElementById('increase');
+	const decreaseButton = document.getElementById('decrease');
+
+	const modeButtons = [pomodoroButton, shortBreakButton, longBreakButton];
 
 	startButton.addEventListener('click', () => {
 		if (isRunning) {
@@ -31,14 +36,44 @@ function initialize() {
 		resetTimer(counterDisplay, startButton)
 	);
 	pomodoroButton.addEventListener('click', () =>
-		switchMode('pomodoro', counterDisplay, startButton)
+		switchMode(
+			'pomodoro',
+			counterDisplay,
+			startButton,
+			modeButtons,
+			pomodoroButton
+		)
 	);
 	shortBreakButton.addEventListener('click', () =>
-		switchMode('short_break', counterDisplay, startButton)
+		switchMode(
+			'short_break',
+			counterDisplay,
+			startButton,
+			modeButtons,
+			shortBreakButton
+		)
 	);
 	longBreakButton.addEventListener('click', () =>
-		switchMode('long_break', counterDisplay, startButton)
+		switchMode(
+			'long_break',
+			counterDisplay,
+			startButton,
+			modeButtons,
+			longBreakButton
+		)
 	);
+
+	increaseButton.addEventListener('click', () => {
+		timeLeft += 60;
+		updateDisplay(counterDisplay);
+	});
+
+	decreaseButton.addEventListener('click', () => {
+		if (timeLeft >= 60) {
+			timeLeft -= 60;
+			updateDisplay(counterDisplay);
+		}
+	});
 
 	updateDisplay(counterDisplay);
 }
@@ -60,6 +95,7 @@ function startCounter(startButton, counterDisplay) {
 	isRunning = true;
 	startButton.textContent = 'Pause';
 	toggleWaveAnimation(true);
+	toggleTimerButtonDisplay(true);
 }
 
 function pauseCounter(startButton) {
@@ -67,6 +103,7 @@ function pauseCounter(startButton) {
 	isRunning = false;
 	startButton.textContent = 'Start';
 	toggleWaveAnimation(false);
+	toggleTimerButtonDisplay(false);
 }
 
 function decrementTime(counterDisplay, startButton) {
@@ -91,6 +128,7 @@ function resetTimer(counterDisplay, startButton) {
 	isRunning = false;
 	startButton.textContent = 'Start';
 	toggleWaveAnimation(false);
+	toggleTimerButtonDisplay(false);
 }
 
 function setTimeByMode(mode) {
@@ -106,10 +144,21 @@ function setTimeByMode(mode) {
 			break;
 	}
 }
+
 //切换番茄时钟模式并重置时间
-function switchMode(mode, counterDisplay, startButton) {
+function switchMode(
+	mode,
+	counterDisplay,
+	startButton,
+	modeButtons,
+	activeButton
+) {
 	currentMode = mode;
 	resetTimer(counterDisplay, startButton);
+
+	modeButtons.forEach((button) => button.classList.remove('active-mode'));
+
+	activeButton.classList.add('active-mode');
 }
 
 //控制波浪动画
@@ -126,4 +175,15 @@ function toggleWaveAnimation(activate) {
 //格式化时间数字为两位
 function numberFormatUtil(number) {
 	return String(number).padStart(2, '0');
+}
+
+//控制加减按钮的显示
+function toggleTimerButtonDisplay(activate) {
+	TIMER_BUTTONS.forEach((button) => {
+		if (activate) {
+			button.style.opacity = 0;
+		} else {
+			button.style.opacity = 1;
+		}
+	});
 }
