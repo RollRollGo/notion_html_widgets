@@ -3,15 +3,37 @@ document.addEventListener('DOMContentLoaded', initialize);
 const POMODORO_TIME = 25 * 60;
 const SHORT_BREAK_TIME = 5 * 60;
 const LONG_BREAK_TIME = 15 * 60;
-const WAVES = document.querySelectorAll('.wave');
 const RING = new Audio('../assets/ring.mp3');
 const BEEP = new Audio('../assets/beep.mp3');
 const TIMER_BUTTONS = document.querySelectorAll('.timer');
+const WAVE_CANVAS = document.getElementById('wave_canvas');
+const WAVE_CONTEXT = WAVE_CANVAS.getContext('2d');
+const THEMES = {
+	pomodoro: {
+		primaryColor: '#a91d3a',
+		backgroundColor: '#f5dad2',
+		waves: ['#FFB1B1', '#FF8E8F'],
+	},
+	short_break: {
+		primaryColor: '#2364aa',
+		backgroundColor: '#dcecff',
+		waves: ['#A9D6FF', '#72B8F5'],
+	},
+	long_break: {
+		primaryColor: '#2f6f4e',
+		backgroundColor: '#dff3e5',
+		waves: ['#A8E6B2', '#73D389'],
+	},
+};
 
 let currentMode = 'pomodoro'; //番茄时钟的默认模式
 let timer; //存储番茄时钟计时器 ID
 let timeLeft = POMODORO_TIME;
 let isRunning = false; //检测番茄时钟是否在计时
+let isPaused = false;
+let waveTime = 0;
+let waveAmplitude = 0;
+let currentWaveColors = THEMES.pomodoro.waves;
 
 function initialize() {
 	const counterDisplay = document.getElementById('counter');
@@ -27,55 +49,82 @@ function initialize() {
 
 	startButton.addEventListener('click', () => {
 		if (isRunning) {
-			pauseCounter(startButton);
+			pauseCounter(startButton, resetButton, increaseButton, decreaseButton);
 		} else {
-			startCounter(startButton, counterDisplay);
+			startCounter(
+				startButton,
+				resetButton,
+				increaseButton,
+				decreaseButton,
+				counterDisplay,
+			);
 		}
 	});
 	resetButton.addEventListener('click', () =>
-		resetTimer(counterDisplay, startButton)
+		resetTimer(
+			counterDisplay,
+			startButton,
+			resetButton,
+			increaseButton,
+			decreaseButton,
+		),
 	);
 	pomodoroButton.addEventListener('click', () =>
 		switchMode(
 			'pomodoro',
 			counterDisplay,
 			startButton,
+			resetButton,
+			increaseButton,
+			decreaseButton,
 			modeButtons,
-			pomodoroButton
-		)
+			pomodoroButton,
+		),
 	);
 	shortBreakButton.addEventListener('click', () =>
 		switchMode(
 			'short_break',
 			counterDisplay,
 			startButton,
+			resetButton,
+			increaseButton,
+			decreaseButton,
 			modeButtons,
-			shortBreakButton
-		)
+			shortBreakButton,
+		),
 	);
 	longBreakButton.addEventListener('click', () =>
 		switchMode(
 			'long_break',
 			counterDisplay,
 			startButton,
+			resetButton,
+			increaseButton,
+			decreaseButton,
 			modeButtons,
-			longBreakButton
-		)
+			longBreakButton,
+		),
 	);
 
 	increaseButton.addEventListener('click', () => {
 		timeLeft += 60;
 		updateDisplay(counterDisplay);
+		updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 	});
 
 	decreaseButton.addEventListener('click', () => {
 		if (timeLeft >= 60) {
 			timeLeft -= 60;
 			updateDisplay(counterDisplay);
+			updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 		}
 	});
 
 	updateDisplay(counterDisplay);
+	updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
+	resizeWaveCanvas();
+	drawWave();
+	window.addEventListener('resize', resizeWaveCanvas);
 }
 
 //格式化时间为 MM：SS
@@ -89,44 +138,88 @@ function updateDisplay(counterDisplay) {
 	counterDisplay.textContent = formatTime(timeLeft);
 }
 
-function startCounter(startButton, counterDisplay) {
+function startCounter(
+	startButton,
+	resetButton,
+	increaseButton,
+	decreaseButton,
+	counterDisplay,
+) {
+	if (timeLeft <= 0) {
+		updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
+		return;
+	}
+
 	clearInterval(timer);
-	timer = setInterval(() => decrementTime(counterDisplay, startButton), 1000);
+	timer = setInterval(
+		() =>
+			decrementTime(
+				counterDisplay,
+				startButton,
+				resetButton,
+				increaseButton,
+				decreaseButton,
+			),
+		1000,
+	);
 	isRunning = true;
+	isPaused = false;
 	startButton.textContent = 'Pause';
+	updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 	toggleWaveAnimation(true);
 	toggleTimerButtonDisplay(true);
 }
 
-function pauseCounter(startButton) {
+function pauseCounter(startButton, resetButton, increaseButton, decreaseButton) {
 	clearInterval(timer);
 	isRunning = false;
+	isPaused = true;
 	startButton.textContent = 'Start';
+	updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 	toggleWaveAnimation(false);
 	toggleTimerButtonDisplay(false);
 }
 
-function decrementTime(counterDisplay, startButton) {
-	if (timeLeft > 0) {
-		if (timeLeft <= 6) {
-			BEEP.play();
-		}
-		timeLeft--;
-		updateDisplay(counterDisplay);
-	} else {
-		clearInterval(timer);
-		RING.play();
-		isRunning = false;
-		startButton.textContent = 'Start';
+function decrementTime(
+	counterDisplay,
+	startButton,
+	resetButton,
+	increaseButton,
+	decreaseButton,
+) {
+	if (timeLeft <= 0) {
+		finishCounter(startButton, resetButton, increaseButton, decreaseButton);
+		return;
+	}
+
+	timeLeft--;
+	updateDisplay(counterDisplay);
+
+	if (timeLeft > 0 && timeLeft <= 5) {
+		playSound(BEEP);
+		return;
+	}
+
+	if (timeLeft === 0) {
+		playSound(RING);
+		finishCounter(startButton, resetButton, increaseButton, decreaseButton);
 	}
 }
 
-function resetTimer(counterDisplay, startButton) {
+function resetTimer(
+	counterDisplay,
+	startButton,
+	resetButton,
+	increaseButton,
+	decreaseButton,
+) {
 	clearInterval(timer);
 	setTimeByMode(currentMode);
 	updateDisplay(counterDisplay);
 	isRunning = false;
+	isPaused = false;
 	startButton.textContent = 'Start';
+	updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 	toggleWaveAnimation(false);
 	toggleTimerButtonDisplay(false);
 }
@@ -150,26 +243,39 @@ function switchMode(
 	mode,
 	counterDisplay,
 	startButton,
+	resetButton,
+	increaseButton,
+	decreaseButton,
 	modeButtons,
-	activeButton
+	activeButton,
 ) {
 	currentMode = mode;
-	resetTimer(counterDisplay, startButton);
+	resetTimer(
+		counterDisplay,
+		startButton,
+		resetButton,
+		increaseButton,
+		decreaseButton,
+	);
+	applyTheme(mode);
 
 	modeButtons.forEach((button) => button.classList.remove('active-mode'));
 
 	activeButton.classList.add('active-mode');
 }
 
+function applyTheme(mode) {
+	const theme = THEMES[mode];
+	const root = document.documentElement;
+
+	root.style.setProperty('--primary-color', theme.primaryColor);
+	root.style.setProperty('--background-color', theme.backgroundColor);
+	currentWaveColors = theme.waves;
+}
+
 //控制波浪动画
 function toggleWaveAnimation(activate) {
-	WAVES.forEach((wave) => {
-		if (activate) {
-			wave.classList.add('wave-active');
-		} else {
-			wave.classList.remove('wave-active');
-		}
-	});
+	isRunning = activate;
 }
 
 //格式化时间数字为两位
@@ -181,9 +287,97 @@ function numberFormatUtil(number) {
 function toggleTimerButtonDisplay(activate) {
 	TIMER_BUTTONS.forEach((button) => {
 		if (activate) {
-			button.style.opacity = 0;
+			button.classList.add('timer-hidden');
 		} else {
-			button.style.opacity = 1;
+			button.classList.remove('timer-hidden');
 		}
 	});
+}
+
+function finishCounter(startButton, resetButton, increaseButton, decreaseButton) {
+	clearInterval(timer);
+	isRunning = false;
+	isPaused = false;
+	startButton.textContent = 'Start';
+	updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
+	toggleWaveAnimation(false);
+	toggleTimerButtonDisplay(false);
+}
+
+function updateTimerButtonStates(
+	startButton,
+	resetButton,
+	increaseButton,
+	decreaseButton,
+) {
+	const isTimeEmpty = timeLeft <= 0;
+	const isTimeAdjustDisabled = isRunning || isPaused || isTimeEmpty;
+
+	startButton.disabled = isTimeEmpty;
+	resetButton.disabled = isRunning;
+	increaseButton.disabled = isTimeAdjustDisabled;
+	decreaseButton.disabled = isTimeAdjustDisabled;
+}
+
+function playSound(sound) {
+	sound.currentTime = 0;
+	const playPromise = sound.play();
+
+	if (playPromise) {
+		playPromise.catch(() => {});
+	}
+}
+
+function resizeWaveCanvas() {
+	const pixelRatio = window.devicePixelRatio || 1;
+	const width = WAVE_CANVAS.offsetWidth;
+	const height = WAVE_CANVAS.offsetHeight;
+
+	WAVE_CANVAS.width = width * pixelRatio;
+	WAVE_CANVAS.height = height * pixelRatio;
+	WAVE_CONTEXT.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+}
+
+function drawWave() {
+	const width = WAVE_CANVAS.offsetWidth;
+	const height = WAVE_CANVAS.offsetHeight;
+	const targetAmplitude = isRunning ? 18 : 0;
+
+	waveAmplitude += (targetAmplitude - waveAmplitude) * 0.08;
+	waveTime += isRunning ? 0.026 : 0.006;
+
+	WAVE_CONTEXT.clearRect(0, 0, width, height);
+	drawSingleWave(currentWaveColors[0], height * 0.25, waveAmplitude, waveTime, 0);
+	drawSingleWave(
+		currentWaveColors[1],
+		height * 0.25,
+		waveAmplitude * 0.75,
+		waveTime,
+		1.5,
+	);
+
+	requestAnimationFrame(drawWave);
+}
+
+function drawSingleWave(color, baseY, amplitude, time, offset) {
+	const width = WAVE_CANVAS.offsetWidth;
+	const height = WAVE_CANVAS.offsetHeight;
+	const breathing = 0.94 + Math.sin(time * 0.8 + offset) * 0.06;
+
+	WAVE_CONTEXT.beginPath();
+	WAVE_CONTEXT.moveTo(0, baseY);
+
+	for (let x = 0; x <= width; x += 2) {
+		const primaryWave = Math.sin(x * 0.024 + time * 1.35 + offset);
+		const softFlow = Math.sin(x * 0.012 + time * 0.32 + offset) * 0.1;
+		const y = baseY + (primaryWave + softFlow) * amplitude * breathing;
+
+		WAVE_CONTEXT.lineTo(x, y);
+	}
+
+	WAVE_CONTEXT.lineTo(width, height);
+	WAVE_CONTEXT.lineTo(0, height);
+	WAVE_CONTEXT.closePath();
+	WAVE_CONTEXT.fillStyle = color;
+	WAVE_CONTEXT.fill();
 }
