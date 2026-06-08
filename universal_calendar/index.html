@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Universal Calendar</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<main class="calendar-shell" aria-label="Universal calendar">
+			<section class="calendar-card">
+				<p class="year" id="calendar-year"></p>
+
+				<div class="month-row">
+					<button class="nav-button" id="previous-month" type="button" aria-label="Previous month">
+						<span aria-hidden="true">&lsaquo;</span>
+					</button>
+					<h1 id="calendar-month"></h1>
+					<button class="nav-button" id="next-month" type="button" aria-label="Next month">
+						<span aria-hidden="true">&rsaquo;</span>
+					</button>
+				</div>
+
+				<div class="weekday-grid" aria-hidden="true">
+					<span>S</span>
+					<span>M</span>
+					<span>T</span>
+					<span>W</span>
+					<span>T</span>
+					<span>F</span>
+					<span>S</span>
+				</div>
+
+				<div class="day-grid" id="calendar-days"></div>
+			</section>
+		</main>
+
+		<script src="./script.js"></script>
+	</body>
+</html>
