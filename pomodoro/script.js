@@ -4,8 +4,11 @@ const POMODORO_TIME = 25 * 60;
 const SHORT_BREAK_TIME = 5 * 60;
 const LONG_BREAK_TIME = 15 * 60;
 const WAVES = document.querySelectorAll('.wave');
+
+
 const RING = new Audio('../assets/ring.mp3');
 const BEEP = new Audio('../assets/beep.mp3');
+
 
 let currentMode = 'pomodoro'; //番茄时钟的默认模式
 let timer; //存储番茄时钟计时器 ID
