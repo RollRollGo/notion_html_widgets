@@ -30,6 +30,7 @@ let currentMode = 'pomodoro'; //番茄时钟的默认模式
 let timer; //存储番茄时钟计时器 ID
 let timeLeft = POMODORO_TIME;
 let isRunning = false; //检测番茄时钟是否在计时
+let isPaused = false;
 let waveTime = 0;
 let waveAmplitude = 0;
 let currentWaveColors = THEMES.pomodoro.waves;
@@ -48,19 +49,34 @@ function initialize() {
 
 	startButton.addEventListener('click', () => {
 		if (isRunning) {
-			pauseCounter(startButton);
+			pauseCounter(startButton, resetButton, increaseButton, decreaseButton);
 		} else {
-			startCounter(startButton, counterDisplay);
+			startCounter(
+				startButton,
+				resetButton,
+				increaseButton,
+				decreaseButton,
+				counterDisplay,
+			);
 		}
 	});
 	resetButton.addEventListener('click', () =>
-		resetTimer(counterDisplay, startButton),
+		resetTimer(
+			counterDisplay,
+			startButton,
+			resetButton,
+			increaseButton,
+			decreaseButton,
+		),
 	);
 	pomodoroButton.addEventListener('click', () =>
 		switchMode(
 			'pomodoro',
 			counterDisplay,
 			startButton,
+			resetButton,
+			increaseButton,
+			decreaseButton,
 			modeButtons,
 			pomodoroButton,
 		),
@@ -70,6 +86,9 @@ function initialize() {
 			'short_break',
 			counterDisplay,
 			startButton,
+			resetButton,
+			increaseButton,
+			decreaseButton,
 			modeButtons,
 			shortBreakButton,
 		),
@@ -79,6 +98,9 @@ function initialize() {
 			'long_break',
 			counterDisplay,
 			startButton,
+			resetButton,
+			increaseButton,
+			decreaseButton,
 			modeButtons,
 			longBreakButton,
 		),
@@ -87,16 +109,19 @@ function initialize() {
 	increaseButton.addEventListener('click', () => {
 		timeLeft += 60;
 		updateDisplay(counterDisplay);
+		updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 	});
 
 	decreaseButton.addEventListener('click', () => {
 		if (timeLeft >= 60) {
 			timeLeft -= 60;
 			updateDisplay(counterDisplay);
+			updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 		}
 	});
 
 	updateDisplay(counterDisplay);
+	updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 	resizeWaveCanvas();
 	drawWave();
 	window.addEventListener('resize', resizeWaveCanvas);
@@ -113,46 +138,88 @@ function updateDisplay(counterDisplay) {
 	counterDisplay.textContent = formatTime(timeLeft);
 }
 
-function startCounter(startButton, counterDisplay) {
+function startCounter(
+	startButton,
+	resetButton,
+	increaseButton,
+	decreaseButton,
+	counterDisplay,
+) {
+	if (timeLeft <= 0) {
+		updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
+		return;
+	}
+
 	clearInterval(timer);
-	timer = setInterval(() => decrementTime(counterDisplay, startButton), 1000);
+	timer = setInterval(
+		() =>
+			decrementTime(
+				counterDisplay,
+				startButton,
+				resetButton,
+				increaseButton,
+				decreaseButton,
+			),
+		1000,
+	);
 	isRunning = true;
+	isPaused = false;
 	startButton.textContent = 'Pause';
+	updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 	toggleWaveAnimation(true);
 	toggleTimerButtonDisplay(true);
 }
 
-function pauseCounter(startButton) {
+function pauseCounter(startButton, resetButton, increaseButton, decreaseButton) {
 	clearInterval(timer);
 	isRunning = false;
+	isPaused = true;
 	startButton.textContent = 'Start';
+	updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 	toggleWaveAnimation(false);
 	toggleTimerButtonDisplay(false);
 }
 
-function decrementTime(counterDisplay, startButton) {
-	if (timeLeft > 0) {
-		if (timeLeft <= 6) {
-			BEEP.play();
-		}
-		timeLeft--;
-		updateDisplay(counterDisplay);
-	} else {
-		clearInterval(timer);
-		RING.play();
-		isRunning = false;
-		startButton.textContent = 'Start';
-		toggleWaveAnimation(false);
-		toggleTimerButtonDisplay(false);
+function decrementTime(
+	counterDisplay,
+	startButton,
+	resetButton,
+	increaseButton,
+	decreaseButton,
+) {
+	if (timeLeft <= 0) {
+		finishCounter(startButton, resetButton, increaseButton, decreaseButton);
+		return;
+	}
+
+	timeLeft--;
+	updateDisplay(counterDisplay);
+
+	if (timeLeft > 0 && timeLeft <= 5) {
+		playSound(BEEP);
+		return;
+	}
+
+	if (timeLeft === 0) {
+		playSound(RING);
+		finishCounter(startButton, resetButton, increaseButton, decreaseButton);
 	}
 }
 
-function resetTimer(counterDisplay, startButton) {
+function resetTimer(
+	counterDisplay,
+	startButton,
+	resetButton,
+	increaseButton,
+	decreaseButton,
+) {
 	clearInterval(timer);
 	setTimeByMode(currentMode);
 	updateDisplay(counterDisplay);
 	isRunning = false;
+	isPaused = false;
 	startButton.textContent = 'Start';
+	updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
 	toggleWaveAnimation(false);
 	toggleTimerButtonDisplay(false);
 }
@@ -176,11 +243,20 @@ function switchMode(
 	mode,
 	counterDisplay,
 	startButton,
+	resetButton,
+	increaseButton,
+	decreaseButton,
 	modeButtons,
 	activeButton,
 ) {
 	currentMode = mode;
-	resetTimer(counterDisplay, startButton);
+	resetTimer(
+		counterDisplay,
+		startButton,
+		resetButton,
+		increaseButton,
+		decreaseButton,
+	);
 	applyTheme(mode);
 
 	modeButtons.forEach((button) => button.classList.remove('active-mode'));
@@ -211,11 +287,45 @@ function numberFormatUtil(number) {
 function toggleTimerButtonDisplay(activate) {
 	TIMER_BUTTONS.forEach((button) => {
 		if (activate) {
-			button.style.opacity = 0;
+			button.classList.add('timer-hidden');
 		} else {
-			button.style.opacity = 1;
+			button.classList.remove('timer-hidden');
 		}
 	});
+}
+
+function finishCounter(startButton, resetButton, increaseButton, decreaseButton) {
+	clearInterval(timer);
+	isRunning = false;
+	isPaused = false;
+	startButton.textContent = 'Start';
+	updateTimerButtonStates(startButton, resetButton, increaseButton, decreaseButton);
+	toggleWaveAnimation(false);
+	toggleTimerButtonDisplay(false);
+}
+
+function updateTimerButtonStates(
+	startButton,
+	resetButton,
+	increaseButton,
+	decreaseButton,
+) {
+	const isTimeEmpty = timeLeft <= 0;
+	const isTimeAdjustDisabled = isRunning || isPaused || isTimeEmpty;
+
+	startButton.disabled = isTimeEmpty;
+	resetButton.disabled = isRunning;
+	increaseButton.disabled = isTimeAdjustDisabled;
+	decreaseButton.disabled = isTimeAdjustDisabled;
+}
+
+function playSound(sound) {
+	sound.currentTime = 0;
+	const playPromise = sound.play();
+
+	if (playPromise) {
+		playPromise.catch(() => {});
+	}
 }
 
 function resizeWaveCanvas() {

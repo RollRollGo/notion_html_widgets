@@ -47,6 +47,16 @@ body {
 		color 0.25s ease;
 }
 
+.button:disabled {
+	cursor: default;
+	filter: grayscale(0.35);
+	opacity: 0.32;
+}
+
+.timer-hidden {
+	opacity: 0;
+}
+
 .menu,
 .display,
 .control {
